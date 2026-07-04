@@ -1409,6 +1409,35 @@ class TestTryForceInt:
         assert result == expected
 
 
+class TestInt:
+    """
+    Tests for the int drop-in replacement function that are too specific
+    for the generalized tests.
+    """
+
+    def test_base_prefix_with_underscore_is_invalid_at_base_10(self) -> None:
+        # A "0b"/"0o"/"0x" prefix is invalid at the default base 10, exactly as
+        # for the built-in int. Combined with an underscore it used to be
+        # silently accepted and miscomputed, e.g. int("0b1_0") -> 10 instead of
+        # an error.
+        for prefix in ("0b", "0o", "0x"):
+            for sign in ("", "+", "-"):
+                for body in ("1_0", "9_5", "1_2_3"):
+                    lit = f"{sign}{prefix}{body}"
+                    with pytest.raises(ValueError):
+                        int(lit)
+                    with pytest.raises(ValueError):
+                        fastnumbers.int(lit)
+                    with pytest.raises(ValueError):
+                        fastnumbers.int(f"  {lit}  ")
+        # The same literals remain valid (and match the built-in int) when the
+        # base actually permits the prefix, so the fix does not over-reject.
+        assert fastnumbers.int("0b1_0", 0) == int("0b1_0", 0) == 2
+        assert fastnumbers.int("0b1_0", 2) == 2
+        assert fastnumbers.int("0o1_7", 8) == int("0o1_7", 8) == 15
+        assert fastnumbers.int("0x1_f", 16) == int("0x1_f", 16) == 31
+
+
 class TestCheckingFunctions:
     """
     Test the successful execution of the "checking" functions, e.g.:
@@ -1674,6 +1703,26 @@ class TestCheckInt:
         # Two underscores:
         assert not fastnumbers.check_int("0b1001__0100", base=0, allow_underscores=True)
         assert not fastnumbers.check_int("0xffff__ffff", base=0, allow_underscores=True)
+
+        # A "0b"/"0o"/"0x" prefix combined with an underscore is invalid at the
+        # default base 10 (the checking analog of the int() conversion fix -- it
+        # used to be silently accepted, e.g. matching "0b1_0" as if it were 10).
+        for prefix in ("0b", "0o", "0x"):
+            for sign in ("", "+", "-"):
+                for body in ("1_0", "9_5", "1_2_3"):
+                    lit = f"{sign}{prefix}{body}"
+                    assert not fastnumbers.check_int(lit, allow_underscores=True)
+                    assert not fastnumbers.check_int(
+                        f"  {lit}  ", allow_underscores=True
+                    )
+        # ...but the same literals are accepted when the base actually permits
+        # the prefix, so the fix does not over-reject.
+        assert fastnumbers.check_int("0b1_0", base=2, allow_underscores=True)
+        assert fastnumbers.check_int("0b1_0", base=0, allow_underscores=True)
+        assert fastnumbers.check_int("0o1_7", base=8, allow_underscores=True)
+        assert fastnumbers.check_int("0o1_7", base=0, allow_underscores=True)
+        assert fastnumbers.check_int("0x1_f", base=16, allow_underscores=True)
+        assert fastnumbers.check_int("0x1_f", base=0, allow_underscores=True)
 
     @given(floats(allow_nan=False, allow_infinity=False).map(repr))
     def test_returns_false_if_given_float_string(self, x: str) -> None:
