@@ -157,7 +157,7 @@ Error-Handling Functions
     7
 
 ``try_real`` is like ``try_float`` or ``try_int`` depending
-on if there is any fractional component of thi return value.
+on if there is any fractional component of the return value.
 
 .. code-block:: python
 
@@ -194,19 +194,19 @@ on if there is any fractional component of thi return value.
 Fast operations on lists and other iterables
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Each of the ``try_*`` functions have a ``map`` option causes the function
-to accept an iterable of items to convert and returns a list. Using
-``try_float`` as an example, the following are all functionally equivalent.
+Each of the ``try_*`` functions have a ``map`` option that causes the function
+to accept an iterable of items to convert and then return a list or iterator.
+Using ``try_float`` as an example, the following are all functionally equivalent.
 
 .. code-block:: python
 
     >>> from fastnumbers import try_float
     >>> iterable = ["5", "4.5", "34567.6", "32"]
-    >>> try_float(iterable, map=list) == list(map(try_float, iterable))
-    True
-    >>> try_float(iterable, map=list) == [try_float(x) for x in iterable]
-    True
-    >>> try_float(iterable, map=list) == list(try_float(iterable, map=True))
+    >>> listcomp = [try_float(x) for x in iterable]
+    >>> mapfunc = list(map(try_float, iterable))
+    >>> fn_list = try_float(iterable, map=list)
+    >>> fn_iter = try_float(iterable, map=True)
+    >>> listcomp == mapfunc == fn_list == list(fn_iter)
     True
 
 The difference is that the ``map`` option is 2x the speed of the list
@@ -227,7 +227,9 @@ additional handling for overflow that is not present in the other
     >>> from fastnumbers import try_array
     >>> import numpy as np
     >>> iterable = ["5", "4.5", "34567.6", "32"]
-    >>> np.array_equal(np.array(try_float(iterable, map=list), dtype=np.float64), try_array(iterable))
+    >>> the_hard_way = np.array(try_float(iterable, map=list), dtype=np.float64)
+    >>> the_easy_way = try_array(iterable)
+    >>> np.array_equal(the_hard_way, the_easy_way)
     True
 
 You will see about a 2x speedup of doing this in one step over converting
@@ -572,12 +574,12 @@ Please note that ``fastnumbers`` is NOT set-up to support
 
 The recommended way to run tests is with
 `tox <https://tox.readthedocs.io/en/latest/>`_.
-Suppose you want to run tests for Python 3.8 - you can run tests by simply
+Suppose you want to run tests for Python 3.13 - you can run tests by simply
 executing the following:
 
 .. code-block:: sh
 
-    $ tox run -e py38
+    $ tox run -e py313
 
 ``tox`` will create virtual a virtual environment for your tests and install
 all the needed testing requirements for you.
@@ -602,8 +604,8 @@ If you want to run the performce analysis yourself, you can execute
 
 .. code-block:: sh
 
-    # This assumes Python 3.9 - adjust for the version you want to profile
-    $ tox run -e py39-prof
+    # This assumes Python 3.13 - adjust for the version you want to profile
+    $ tox run -e py313-prof
 
 If you do not wish to use ``tox``, you can install the testing dependencies with the
 ``dev-requirements.txt`` file and then run the tests manually using
