@@ -55,8 +55,13 @@ public:
         // Get the payload no matter which parser was returned
         RawPayload<T> payload;
         std::visit(
-            [&payload](const auto& parser) {
-                parser.as_number(payload);
+            [&payload, this](const auto& parser) {
+                if (parser.parser_type() == ParserType::UNICODE
+                    && !m_options.allow_unicode()) {
+                    payload = ErrorType::BAD_VALUE;
+                } else {
+                    parser.as_number(payload);
+                }
             },
             extract_parser(input, m_buffer, m_options)
         );

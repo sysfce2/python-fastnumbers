@@ -45,7 +45,13 @@ public:
     ParserType parser_type() const noexcept { return m_parser.parser_type(); }
 
     /// Return the type of number contained in the given object
-    NumberFlags number_type() const noexcept { return m_parser.get_number_type(); }
+    NumberFlags number_type() const noexcept
+    {
+        if (parser_type() == ParserType::UNICODE && !options().allow_unicode()) {
+            return NumberType::INVALID | NumberType::FromUni;
+        }
+        return m_parser.get_number_type();
+    }
 
     /**
      * \brief Convert the stored object to the desired number type

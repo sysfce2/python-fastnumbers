@@ -59,6 +59,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint: ...
 @overload
@@ -72,6 +73,7 @@ def try_real(
     coerce: Literal[False],
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyfloat: ...
 @overload
@@ -85,6 +87,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> FloatInt: ...
 @overload
@@ -104,6 +107,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> FloatInt | StrInputType: ...
 @overload
@@ -117,6 +121,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> FloatInt: ...
 @overload
@@ -130,6 +135,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -143,6 +149,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -156,6 +163,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> FloatInt: ...
 @overload
@@ -169,6 +177,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -182,6 +191,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint]: ...
 @overload
@@ -195,6 +205,7 @@ def try_real(
     coerce: Literal[False],
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyfloat]: ...
 @overload
@@ -208,6 +219,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[FloatInt]: ...
 @overload
@@ -227,6 +239,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[FloatInt | StrInputType]: ...
 @overload
@@ -240,6 +253,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[FloatInt]: ...
 @overload
@@ -253,6 +267,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -266,6 +281,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -279,6 +295,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[FloatInt]: ...
 @overload
@@ -292,6 +309,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -305,6 +323,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint]: ...
 @overload
@@ -318,6 +337,7 @@ def try_real(
     coerce: Literal[False],
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyfloat]: ...
 @overload
@@ -331,6 +351,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[FloatInt]: ...
 @overload
@@ -350,6 +371,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[FloatInt | StrInputType]: ...
 @overload
@@ -363,6 +385,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[FloatInt]: ...
 @overload
@@ -376,6 +399,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 @overload
@@ -389,6 +413,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 @overload
@@ -402,6 +427,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[FloatInt]: ...
 @overload
@@ -415,6 +441,7 @@ def try_real(
     coerce: bool = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 
@@ -428,6 +455,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyfloat: ...
 @overload
@@ -445,6 +473,7 @@ def try_float(
     on_fail: INPUT_T = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyfloat | StrInputType: ...
 @overload
@@ -456,6 +485,7 @@ def try_float(
     on_fail: RAISE_T | pyfloat | Callable[[StrInputType], pyfloat],
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyfloat: ...
 @overload
@@ -467,6 +497,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -478,6 +509,7 @@ def try_float(
     on_fail: Any,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -489,6 +521,7 @@ def try_float(
     on_fail: RAISE_T | pyfloat | Callable[[AnyInputType], pyfloat],
     on_type_error: pyfloat | Callable[[AnyInputType], pyfloat],
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyfloat: ...
 @overload
@@ -500,6 +533,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -511,6 +545,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyfloat]: ...
 @overload
@@ -528,6 +563,7 @@ def try_float(
     on_fail: INPUT_T = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyfloat | StrInputType]: ...
 @overload
@@ -539,6 +575,7 @@ def try_float(
     on_fail: RAISE_T | pyfloat | Callable[[StrInputType], pyfloat],
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyfloat]: ...
 @overload
@@ -550,6 +587,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -561,6 +599,7 @@ def try_float(
     on_fail: Any,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -572,6 +611,7 @@ def try_float(
     on_fail: RAISE_T | pyfloat | Callable[[AnyInputType], pyfloat],
     on_type_error: pyfloat | Callable[[AnyInputType], pyfloat],
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyfloat]: ...
 @overload
@@ -583,6 +623,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -594,6 +635,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyfloat]: ...
 @overload
@@ -611,6 +653,7 @@ def try_float(
     on_fail: INPUT_T = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyfloat | StrInputType]: ...
 @overload
@@ -622,6 +665,7 @@ def try_float(
     on_fail: RAISE_T | pyfloat | Callable[[StrInputType], pyfloat],
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyfloat]: ...
 @overload
@@ -633,6 +677,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 @overload
@@ -644,6 +689,7 @@ def try_float(
     on_fail: Any,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 @overload
@@ -655,6 +701,7 @@ def try_float(
     on_fail: RAISE_T | pyfloat | Callable[[AnyInputType], pyfloat],
     on_type_error: pyfloat | Callable[[AnyInputType], pyfloat],
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyfloat]: ...
 @overload
@@ -666,6 +713,7 @@ def try_float(
     on_fail: Any = ...,
     on_type_error: Any,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 
@@ -677,6 +725,7 @@ def try_int(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint: ...
 @overload
@@ -687,6 +736,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint | StrInputType: ...
 @overload
@@ -697,6 +747,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint: ...
 @overload
@@ -707,6 +758,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -717,6 +769,7 @@ def try_int(
     on_type_error: pyint | Callable[[AnyInputType], pyint],
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint: ...
 @overload
@@ -727,6 +780,7 @@ def try_int(
     on_type_error: Any,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -736,6 +790,7 @@ def try_int(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint]: ...
 @overload
@@ -746,6 +801,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint | StrInputType]: ...
 @overload
@@ -756,6 +812,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint]: ...
 @overload
@@ -766,6 +823,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -776,6 +834,7 @@ def try_int(
     on_type_error: pyint | Callable[[AnyInputType], pyint],
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint]: ...
 @overload
@@ -786,6 +845,7 @@ def try_int(
     on_type_error: Any,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -795,6 +855,7 @@ def try_int(
     on_fail: Any = ...,
     on_type_error: Any = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint]: ...
 @overload
@@ -805,6 +866,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint | StrInputType]: ...
 @overload
@@ -815,6 +877,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint]: ...
 @overload
@@ -825,6 +888,7 @@ def try_int(
     on_type_error: Any = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 @overload
@@ -835,6 +899,7 @@ def try_int(
     on_type_error: pyint | Callable[[AnyInputType], pyint],
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint]: ...
 @overload
@@ -845,6 +910,7 @@ def try_int(
     on_type_error: Any,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 
@@ -857,6 +923,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint: ...
 @overload
@@ -867,6 +934,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint | StrInputType: ...
 @overload
@@ -877,6 +945,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint: ...
 @overload
@@ -887,6 +956,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -897,6 +967,7 @@ def try_forceint(
     on_type_error: pyint | Callable[[AnyInputType], pyint],
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> pyint: ...
 @overload
@@ -907,6 +978,7 @@ def try_forceint(
     on_type_error: Any,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[False] = ...,
 ) -> Any: ...
 @overload
@@ -917,6 +989,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint]: ...
 @overload
@@ -927,6 +1000,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint | StrInputType]: ...
 @overload
@@ -937,6 +1011,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint]: ...
 @overload
@@ -947,6 +1022,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -957,6 +1033,7 @@ def try_forceint(
     on_type_error: pyint | Callable[[AnyInputType], pyint],
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[pyint]: ...
 @overload
@@ -967,6 +1044,7 @@ def try_forceint(
     on_type_error: Any,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: type[list],
 ) -> list[Any]: ...
 @overload
@@ -977,6 +1055,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint]: ...
 @overload
@@ -987,6 +1066,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint | StrInputType]: ...
 @overload
@@ -997,6 +1077,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint]: ...
 @overload
@@ -1007,6 +1088,7 @@ def try_forceint(
     on_type_error: Any = ...,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 @overload
@@ -1017,6 +1099,7 @@ def try_forceint(
     on_type_error: pyint | Callable[[AnyInputType], pyint],
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[pyint]: ...
 @overload
@@ -1027,6 +1110,7 @@ def try_forceint(
     on_type_error: Any,
     denoise: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
     map: Literal[True],
 ) -> Iterator[Any]: ...
 
@@ -1493,6 +1577,7 @@ def check_real(
     inf: InfNanCheckType = ...,
     nan: InfNanCheckType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
 ) -> bool: ...
 def check_float(
     x: Any,
@@ -1502,6 +1587,7 @@ def check_float(
     nan: InfNanCheckType = ...,
     strict: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
 ) -> bool: ...
 def check_int(
     x: Any,
@@ -1509,12 +1595,14 @@ def check_int(
     consider: ConsiderType = ...,
     base: IntBaseType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
 ) -> bool: ...
 def check_intlike(
     x: Any,
     *,
     consider: ConsiderType = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
 ) -> bool: ...
 
 # Deprecated checking
@@ -1562,6 +1650,7 @@ def query_type(
     allow_nan: bool = ...,
     coerce: bool = ...,
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
 ) -> type[QueryInputType | pyint | pyfloat]: ...
 @overload
 def query_type(
@@ -1572,6 +1661,7 @@ def query_type(
     coerce: bool = ...,
     allowed_types: Sequence[type[Any]],
     allow_underscores: bool = ...,
+    allow_unicode_chars: bool = ...,
 ) -> type[QueryInputType | pyint | pyfloat] | None: ...
 
 # Buitin replacements
