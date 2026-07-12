@@ -102,6 +102,7 @@ if TYPE_CHECKING:
         on_type_error: RAISE_T | int | CallToInt = RAISE,
         base: int = 10,
         allow_underscores: bool = False,
+        allow_unicode_chars: bool = True,
     ) -> np.ndarray[IntT]: ...
 
     @overload
@@ -117,6 +118,7 @@ if TYPE_CHECKING:
         on_type_error: RAISE_T | int | float | CallToInt | CallToFloat = RAISE,
         base: int = 10,
         allow_underscores: bool = False,
+        allow_unicode_chars: bool = True,
     ) -> np.ndarray[FloatT]: ...
 
     @overload
@@ -131,6 +133,7 @@ if TYPE_CHECKING:
         on_type_error: RAISE_T | int | CallToInt = RAISE,
         base: int = 10,
         allow_underscores: bool = False,
+        allow_unicode_chars: bool = True,
     ) -> None: ...
 
     @overload
@@ -145,6 +148,7 @@ if TYPE_CHECKING:
         on_type_error: RAISE_T | int | float | CallToInt | CallToFloat = RAISE,
         base: int = 10,
         allow_underscores: bool = False,
+        allow_unicode_chars: bool = True,
     ) -> None: ...
 
     @overload
@@ -159,6 +163,7 @@ if TYPE_CHECKING:
         on_type_error: RAISE_T | int | CallToInt = RAISE,
         base: int = 10,
         allow_underscores: bool = False,
+        allow_unicode_chars: bool = True,
     ) -> None: ...
 
     @overload
@@ -173,6 +178,7 @@ if TYPE_CHECKING:
         on_type_error: RAISE_T | int | float | CallToInt | CallToFloat = RAISE,
         base: int = 10,
         allow_underscores: bool = False,
+        allow_unicode_chars: bool = True,
     ) -> None: ...
 
 
@@ -225,7 +231,7 @@ def try_array(input, output=None, *, dtype=None, **kwargs):  # noqa: A002, D417
         matches that of ``on_fail`` except that a *TypeError* is raised instead of
         *ValueError*.
     base : int, optional
-        Follows the rules of Python's built-in :func:*int*; see it's
+        Follows the rules of Python's built-in :func:`int`; see it's
         documentation for your Python version. If given, the input
         **must** be of type *str*. Ignored if the *dtype* is not integral.
     allow_underscores : bool, optional
@@ -233,6 +239,11 @@ def try_array(input, output=None, *, dtype=None, **kwargs):  # noqa: A002, D417
         or *float* (see PEP 515 for details on what is and is not allowed). You can
         enable that behavior by setting this option to *True* - the default is
         *False*.
+    allow_unicode_chars : bool, optional
+        As a convenience, by default single unicode characters that are valid
+        digits or numerals (depending on the *dtype*) will be converted
+        to numeric types. To disable this behavior set this option to *False* -
+        the default is *True*.
 
     Returns
     -------

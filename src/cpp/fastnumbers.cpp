@@ -158,6 +158,7 @@ static PyObject* fastnumbers_try_real(
     bool coerce = true;
     bool denoise = false;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
     PyObject* map = Py_False;
 
     // Read the function argument
@@ -171,6 +172,7 @@ static PyObject* fastnumbers_try_real(
                            "$on_type_error", false, &on_type_error,
                            "$coerce", true, &coerce,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            "$map", false, &map,
                            "$denoise", true, &denoise,
                            nullptr, false, nullptr
@@ -189,6 +191,7 @@ static PyObject* fastnumbers_try_real(
         impl.set_coerce(coerce);
         impl.set_denoise(denoise);
         impl.set_underscores_allowed(allow_underscores);
+        impl.set_unicode_allowed(allow_unicode_chars);
         auto convert = [impl = std::move(impl)](PyObject* x) -> PyObject* {
             return impl.convert(x);
         };
@@ -209,6 +212,7 @@ static PyObject* fastnumbers_try_float(
     PyObject* on_fail = Selectors::INPUT;
     PyObject* on_type_error = Selectors::RAISE;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
     PyObject* map = Py_False;
 
     // Read the function arguments
@@ -221,6 +225,7 @@ static PyObject* fastnumbers_try_float(
                            "$on_fail", false, &on_fail,
                            "$on_type_error", false, &on_type_error,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            "$map", false, &map,
                            nullptr, false, nullptr
         )) return nullptr;
@@ -236,6 +241,7 @@ static PyObject* fastnumbers_try_float(
         impl.set_inf_action(inf);
         impl.set_nan_action(nan);
         impl.set_underscores_allowed(allow_underscores);
+        impl.set_unicode_allowed(allow_unicode_chars);
         auto convert = [impl = std::move(impl)](PyObject* x) -> PyObject* {
             return impl.convert(x);
         };
@@ -255,6 +261,7 @@ static PyObject* fastnumbers_try_int(
     PyObject* on_type_error = Selectors::RAISE;
     PyObject* pybase = nullptr;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
     PyObject* map = Py_False;
 
     // Read the function arguments
@@ -266,6 +273,7 @@ static PyObject* fastnumbers_try_int(
                            "$on_type_error", false, &on_type_error,
                            "$base", false, &pybase,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            "$map", false, &map,
                            nullptr, false, nullptr
         )) return nullptr;
@@ -278,7 +286,11 @@ static PyObject* fastnumbers_try_int(
         Implementation impl(UserType::INT, assess_integer_base_input(pybase));
         impl.set_fail_action(on_fail);
         impl.set_type_error_action(on_type_error);
-        impl.set_unicode_allowed(); // determine from base
+        if (!allow_unicode_chars) {
+            impl.set_unicode_allowed(false);
+        } else {
+            impl.set_unicode_allowed(); // determine from base
+        }
         impl.set_underscores_allowed(allow_underscores);
         auto convert = [impl = std::move(impl)](PyObject* x) -> PyObject* {
             return impl.convert(x);
@@ -298,6 +310,7 @@ static PyObject* fastnumbers_try_forceint(
     PyObject* on_fail = Selectors::INPUT;
     PyObject* on_type_error = Selectors::RAISE;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
     bool denoise = false;
     PyObject* map = Py_False;
 
@@ -309,6 +322,7 @@ static PyObject* fastnumbers_try_forceint(
                            "$on_fail", false, &on_fail,
                            "$on_type_error", false, &on_type_error,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            "$map", false, &map,
                            "$denoise", true, &denoise,
                            nullptr, false, nullptr
@@ -324,6 +338,7 @@ static PyObject* fastnumbers_try_forceint(
         impl.set_type_error_action(on_type_error);
         impl.set_denoise(denoise);
         impl.set_underscores_allowed(allow_underscores);
+        impl.set_unicode_allowed(allow_unicode_chars);
         auto convert = [impl = std::move(impl)](PyObject* x) -> PyObject* {
             return impl.convert(x);
         };
@@ -347,6 +362,7 @@ static PyObject* fastnumbers_array(
     PyObject* on_type_error = Selectors::RAISE;
     PyObject* pybase = nullptr;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
 
     // Read the function arguments
     FN_PREPARE_ARGPARSER;
@@ -361,6 +377,7 @@ static PyObject* fastnumbers_array(
                            "$on_type_error", false, &on_type_error,
                            "$base", false, &pybase,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            nullptr, false, nullptr
         )) return nullptr;
     // clang-format on
@@ -376,6 +393,7 @@ static PyObject* fastnumbers_array(
             on_overflow,
             on_type_error,
             allow_underscores,
+            allow_unicode_chars,
             assess_integer_base_input(pybase)
         );
 
@@ -396,6 +414,7 @@ static PyObject* fastnumbers_check_real(
     PyObject* inf = Selectors::NUMBER_ONLY;
     PyObject* nan = Selectors::NUMBER_ONLY;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
 
     // Read the function arguments
     FN_PREPARE_ARGPARSER;
@@ -406,6 +425,7 @@ static PyObject* fastnumbers_check_real(
                            "$nan", false, &nan,
                            "$consider", false, &consider,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            nullptr, false, nullptr
         )) return nullptr;
     // clang-format on
@@ -417,6 +437,7 @@ static PyObject* fastnumbers_check_real(
         impl.set_nan_allowed(nan);
         impl.set_consider(consider);
         impl.set_underscores_allowed(allow_underscores);
+        impl.set_unicode_allowed(allow_unicode_chars);
         return impl.check(input);
     });
 }
@@ -434,6 +455,7 @@ static PyObject* fastnumbers_check_float(
     PyObject* nan = Selectors::NUMBER_ONLY;
     int strict = false;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
 
     // Read the function arguments
     FN_PREPARE_ARGPARSER;
@@ -445,6 +467,7 @@ static PyObject* fastnumbers_check_float(
                            "$consider", false, &consider,
                            "$strict", true, &strict,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            nullptr, false, nullptr
         )) return nullptr;
     // clang-format on
@@ -457,6 +480,7 @@ static PyObject* fastnumbers_check_float(
         impl.set_consider(consider);
         impl.set_strict(strict);
         impl.set_underscores_allowed(allow_underscores);
+        impl.set_unicode_allowed(allow_unicode_chars);
         return impl.check(input);
     });
 }
@@ -472,6 +496,7 @@ static PyObject* fastnumbers_check_int(
     PyObject* consider = Py_None;
     PyObject* pybase = nullptr;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
 
     // Read the function arguments
     FN_PREPARE_ARGPARSER;
@@ -481,6 +506,7 @@ static PyObject* fastnumbers_check_int(
                            "$consider", false, &consider,
                            "$base", false, &pybase,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            nullptr, false, nullptr
         )) return nullptr;
     // clang-format on
@@ -490,6 +516,7 @@ static PyObject* fastnumbers_check_int(
         Implementation impl(UserType::INT, assess_integer_base_input(pybase));
         impl.set_consider(consider);
         impl.set_underscores_allowed(allow_underscores);
+        impl.set_unicode_allowed(allow_unicode_chars);
         return impl.check(input);
     });
 }
@@ -504,6 +531,7 @@ static PyObject* fastnumbers_check_intlike(
     PyObject* input = nullptr;
     PyObject* consider = Py_None;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
 
     // Read the function arguments
     FN_PREPARE_ARGPARSER;
@@ -512,6 +540,7 @@ static PyObject* fastnumbers_check_intlike(
                            "x", false,  &input,
                            "$consider", false, &consider,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            nullptr, false, nullptr
         )) return nullptr;
     // clang-format on
@@ -522,6 +551,7 @@ static PyObject* fastnumbers_check_intlike(
         impl.set_consider(consider);
         impl.set_coerce(true);
         impl.set_underscores_allowed(allow_underscores);
+        impl.set_unicode_allowed(allow_unicode_chars);
         return impl.check(input);
     });
 }
@@ -539,6 +569,7 @@ static PyObject* fastnumbers_query_type(
     int allow_inf = false;
     int allow_nan = false;
     bool allow_underscores = false;
+    bool allow_unicode_chars = true;
 
     // Read the function arguments
     FN_PREPARE_ARGPARSER;
@@ -550,6 +581,7 @@ static PyObject* fastnumbers_query_type(
                            "$coerce", true, &coerce,
                            "$allowed_types", false, &allowed_types,
                            "$allow_underscores", true, &allow_underscores,
+                           "$allow_unicode_chars", true, &allow_unicode_chars,
                            nullptr, false, nullptr
         )) return nullptr;
     // clang-format on
@@ -566,6 +598,7 @@ static PyObject* fastnumbers_query_type(
         impl.set_coerce(coerce);
         impl.set_allowed_types(allowed_types);
         impl.set_underscores_allowed(allow_underscores);
+        impl.set_unicode_allowed(allow_unicode_chars);
         return impl.query_type(input);
     });
 }

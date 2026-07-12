@@ -89,6 +89,7 @@ def test_try_real() -> None:
     assert fastnumbers.try_real("invalid", on_fail=None) is None
     # 18. Unicode numbers
     assert fastnumbers.try_real("⑦") == 7
+    assert fastnumbers.try_real("⑦", allow_unicode_chars=False) == "⑦"
     assert fastnumbers.try_real("⁸") == 8
     assert fastnumbers.try_real("⅔") == 2.0 / 3.0
     assert fastnumbers.try_real("Ⅴ") == 5
@@ -162,6 +163,7 @@ def test_try_float() -> None:
     assert fastnumbers.try_float("invalid", on_fail=None) is None
     # 18. Unicode numbers
     assert fastnumbers.try_float("⑦") == 7.0
+    assert fastnumbers.try_float("⑦", allow_unicode_chars=False) == "⑦"
     assert fastnumbers.try_float("⁸") == 8.0
     assert fastnumbers.try_float("⅔") == 2.0 / 3.0
     assert fastnumbers.try_float("Ⅴ") == 5.0
@@ -223,6 +225,7 @@ def test_try_int() -> None:
     assert fastnumbers.try_int("invalid", on_fail=None) is None
     # 18. Unicode numbers
     assert fastnumbers.try_int("⑦") == 7
+    assert fastnumbers.try_int("⑦", allow_unicode_chars=False) == "⑦"
     assert fastnumbers.try_int("⁸") == 8
     assert fastnumbers.try_int("⁸", base=10) == "⁸"
     assert fastnumbers.try_int("⅔") == "⅔"
@@ -286,6 +289,7 @@ def test_try_forceint() -> None:
     assert fastnumbers.try_forceint("invalid", on_fail=None) is None
     # 18. Unicode numbers
     assert fastnumbers.try_forceint("⑦") == 7
+    assert fastnumbers.try_forceint("⑦", allow_unicode_chars=False) == "⑦"
     assert fastnumbers.try_forceint("⁸") == 8
     assert fastnumbers.try_forceint("⅔") == 0
     assert fastnumbers.try_forceint("Ⅴ") == 5
@@ -353,6 +357,7 @@ def test_check_real() -> None:
     assert not fastnumbers.check_real(".")
     # 18. Unicode numbers
     assert fastnumbers.check_real("⑦")
+    assert not fastnumbers.check_real("⑦", allow_unicode_chars=False)
     assert fastnumbers.check_real("⁸")
     assert fastnumbers.check_real("⅔")
     assert fastnumbers.check_real("Ⅴ")
@@ -410,6 +415,7 @@ def test_check_float() -> None:
     assert not fastnumbers.check_float(".")
     # 18. Unicode numbers
     assert fastnumbers.check_float("⑦")
+    assert not fastnumbers.check_float("⑦", allow_unicode_chars=False)
     assert fastnumbers.check_float("⁸")
     assert fastnumbers.check_float("⅔")
     assert fastnumbers.check_float("Ⅴ")
@@ -463,6 +469,7 @@ def test_check_int() -> None:
     assert not fastnumbers.check_int(".")
     # 18. Unicode numbers
     assert fastnumbers.check_int("⑦")
+    assert not fastnumbers.check_int("⑦", allow_unicode_chars=False)
     assert fastnumbers.check_int("⁸")
     assert not fastnumbers.check_int("⅔")
     assert not fastnumbers.check_int("Ⅴ")
@@ -524,6 +531,7 @@ def test_check_intlike() -> None:
     assert not fastnumbers.check_intlike(".")
     # 18. Unicode numbers
     assert fastnumbers.check_intlike("⑦")
+    assert not fastnumbers.check_intlike("⑦", allow_unicode_chars=False)
     assert fastnumbers.check_intlike("⁸")
     assert not fastnumbers.check_intlike("⅔")
     assert fastnumbers.check_intlike("Ⅴ")
@@ -577,6 +585,7 @@ def test_type() -> None:
     assert fastnumbers.query_type(".") is str
     # 18. Unicode numbers
     assert fastnumbers.query_type("⑦") is int
+    assert fastnumbers.query_type("⑦", allow_unicode_chars=False) is not int
     assert fastnumbers.query_type("⁸") is int
     assert fastnumbers.query_type("⅔") is float
     assert fastnumbers.query_type("Ⅴ") is float

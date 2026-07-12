@@ -395,6 +395,9 @@ struct ArrayImpl {
     /// Whether or not to allow underscores in strings
     bool m_allow_underscores;
 
+    /// Whether or not to convert individual unicode characters
+    bool m_allow_unicode_chars;
+
     /// The base to use when parsing integers
     int m_base;
 
@@ -408,6 +411,7 @@ struct ArrayImpl {
         UserOptions options;
         options.set_base(m_base);
         options.set_underscores_allowed(m_allow_underscores);
+        options.set_unicode_allowed(m_allow_unicode_chars);
 
         // Define how a Python object can be converted into a C number type
         CTypeExtractor<T> extractor(options);
@@ -483,6 +487,7 @@ void array_impl(
     PyObject* on_overflow,
     PyObject* on_type_error,
     bool allow_underscores,
+    bool allow_unicode_chars,
     int base
 ) noexcept(false)
 {
@@ -504,7 +509,15 @@ void array_impl(
     // Pass on all arguments to the actual implementation
     // NOTE: This will manage the buffer object for us
     ArrayImpl impl {
-        input, buf, inf, nan, on_fail, on_overflow, on_type_error, allow_underscores,
+        input,
+        buf,
+        inf,
+        nan,
+        on_fail,
+        on_overflow,
+        on_type_error,
+        allow_underscores,
+        allow_unicode_chars,
         base,
     };
 

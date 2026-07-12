@@ -56,6 +56,7 @@ class TryReal(Protocol):
         coerce: bool = ...,
         denoise: bool = ...,
         allow_underscores: bool = ...,
+        allow_unicode_chars: bool = ...,
     ) -> Any: ...
 
 
@@ -69,6 +70,7 @@ class TryFloat(Protocol):
         on_fail: Any = ...,
         on_type_error: Any = ...,
         allow_underscores: bool = ...,
+        allow_unicode_chars: bool = ...,
     ) -> Any: ...
 
 
@@ -81,6 +83,7 @@ class TryInt(Protocol):
         on_type_error: Any = ...,
         base: int = ...,
         allow_underscores: bool = ...,
+        allow_unicode_chars: bool = ...,
     ) -> Any: ...
 
 
@@ -93,6 +96,7 @@ class TryForceInt(Protocol):
         on_type_error: Any = ...,
         denoise: bool = ...,
         allow_underscores: bool = ...,
+        allow_unicode_chars: bool = ...,
     ) -> Any: ...
 
 
@@ -105,6 +109,7 @@ class CheckReal(Protocol):
         inf: Any = ...,
         nan: Any = ...,
         allow_underscores: bool = ...,
+        allow_unicode_chars: bool = ...,
     ) -> bool: ...
 
 
@@ -117,6 +122,7 @@ class CheckFloat(Protocol):
         inf: Any = ...,
         nan: Any = ...,
         allow_underscores: bool = ...,
+        allow_unicode_chars: bool = ...,
     ) -> bool: ...
 
 
@@ -128,6 +134,7 @@ class CheckInt(Protocol):
         consider: Any = ...,
         base: int = ...,
         allow_underscores: bool = ...,
+        allow_unicode_chars: bool = ...,
     ) -> bool: ...
 
 
@@ -138,6 +145,7 @@ class CheckIntLike(Protocol):
         *,
         consider: Any = ...,
         allow_underscores: bool = ...,
+        allow_unicode_chars: bool = ...,
     ) -> bool: ...
 
 
@@ -253,6 +261,7 @@ IdentificationFuncs = Union[CheckReal, CheckFloat, CheckInt, CheckIntLike]
 OldIdentificationFuncs = Union[IsReal, IsFloat, IsInt, IsIntLike]
 
 # Predefine Unicode digits, numbers, and not those.
+decimals = set()
 digits = []
 numeric = []
 not_numeric = []
@@ -262,15 +271,23 @@ for x in range(0x1FFFFF):
     except ValueError:
         break
     try:
+        unicodedata.decimal(a)
+        decimals.add(a)
+    except ValueError:
+        pass
+    try:
         unicodedata.digit(a)
-        digits.append(a)
+        if a not in decimals:
+            digits.append(a)
     except ValueError:
         pass
     try:
         unicodedata.numeric(a)
-        numeric.append(a)
+        if a not in decimals:
+            numeric.append(a)
     except ValueError:
         not_numeric.append(a)
+
 numeric_not_digit = [x for x in numeric if x not in digits]
 numeric_not_digit_not_int = [
     x for x in numeric_not_digit if not unicodedata.numeric(x).is_integer()
@@ -292,9 +309,10 @@ def a_number(s: str | bytes) -> bool:
         return True
     if isinstance(s, bytes):
         return False
-    if re.match(r"\s*([-+]?\d+\.?\d*(?:[eE][-+]?\d+)?)\s*$", s, re.UNICODE):
+    assert isinstance(s, str)
+    if re.match(r"\s*([-+]?\d+\.?\d*(?:[eE][-+]?\d+)?)\s*$", s):
         return True
-    if re.match(r"\s*([-+]?\.\d+(?:[eE][-+]?\d+)?)\s*$", s, re.UNICODE):
+    if re.match(r"\s*([-+]?\.\d+(?:[eE][-+]?\d+)?)\s*$", s):
         return True
     return s.strip().lstrip("[-+]") in numeric
 
@@ -996,6 +1014,9 @@ class TestErrorHandlingConversionFunctionsSuccessful:
         expected = unicodedata.digit(x)
         result = func(x)
         assert result == expected
+        assert (
+            func(x, allow_unicode_chars=False) == x
+        )  # Rejects unicode digits when disallowed
         assert isinstance(result, int)
         assert func(pad(x)) == expected  # Accepts padding as well
 
@@ -1010,6 +1031,9 @@ class TestErrorHandlingConversionFunctionsSuccessful:
         expected = unicodedata.numeric(x)
         result = func(x)
         assert result == expected
+        assert (
+            func(x, allow_unicode_chars=False) == x
+        )  # Rejects unicode digits when disallowed
         assert isinstance(func(x), float)
         assert func(pad(x)) == expected  # Accepts padding as well
 
@@ -1112,6 +1136,7 @@ class TestErrorHandlingConversionFunctionsUnsucessful:
         self, func: ConversionFuncs, x: str
     ) -> None:
         assert func(x) == x
+        assert func(x, allow_unicode_chars=False) == x
 
     @given(text(min_size=2).filter(not_a_number))
     @example("   \u2007\u2007    ")
@@ -1287,6 +1312,7 @@ class TestTryFloat:
         expected = unicodedata.numeric(x)
         result = fastnumbers.try_float(x)
         assert result == expected
+        assert fastnumbers.try_float(x, allow_unicode_chars=False) == x
         assert isinstance(result, float)
         assert fastnumbers.try_float(pad(x)) == expected  # Accepts padding as well
 
@@ -1351,6 +1377,7 @@ class TestTryInt:
     @given(sampled_from(numeric_not_digit))
     def test_given_unicode_numeral_returns_as_is(self, x: str) -> None:
         assert fastnumbers.try_int(x) == x
+        assert fastnumbers.try_int(x, allow_unicode_chars=False) == x
 
 
 class TestTryForceInt:
@@ -1371,6 +1398,7 @@ class TestTryForceInt:
         expected = int(unicodedata.numeric(x))
         result = fastnumbers.try_forceint(x)
         assert result == expected
+        assert fastnumbers.try_forceint(x, allow_unicode_chars=False) == x
         assert isinstance(result, int)
         assert fastnumbers.try_forceint(pad(x)) == expected  # Accepts padding
 
@@ -1568,6 +1596,7 @@ class TestCheckingFunctions:
     ) -> None:
         assert func(x)
         assert func(pad(x))  # Accepts padding
+        assert not func(x, allow_unicode_chars=False)
 
     funcs = ["check_real", "check_float"]
 
@@ -1578,6 +1607,7 @@ class TestCheckingFunctions:
     ) -> None:
         assert func(x)
         assert func(pad(x))  # Accepts padding
+        assert not func(x, allow_unicode_chars=False)
 
     # Handling of invalid input
 
@@ -1602,6 +1632,7 @@ class TestCheckingFunctions:
         self, func: IdentificationFuncs, x: str
     ) -> None:
         assert not func(x)
+        assert not func(x, allow_unicode_chars=False)
 
     @given(text(min_size=2).filter(not_a_number))
     @example("   \u2007\u2007    ")
@@ -1610,6 +1641,7 @@ class TestCheckingFunctions:
         self, func: IdentificationFuncs, x: str
     ) -> None:
         assert not func(x)
+        assert not func(x, allow_unicode_chars=False)
 
     funcs = ["check_int", "check_intlike"]
 
@@ -1735,6 +1767,7 @@ class TestCheckInt:
     @given(sampled_from(numeric_not_digit_not_int))
     def test_given_unicode_numeral_returns_false(self, x: str) -> None:
         assert not fastnumbers.check_int(x)
+        assert not fastnumbers.check_int(x, allow_unicode_chars=False)
 
 
 class TestCheckIntLike:
@@ -1761,6 +1794,7 @@ class TestCheckIntLike:
     @given(sampled_from(numeric_not_digit_not_int))
     def test_given_unicode_non_digit_numeral_returns_false(self, x: str) -> None:
         assert not fastnumbers.check_intlike(x)
+        assert not fastnumbers.check_intlike(x, allow_unicode_chars=False)
 
     @given(
         sampled_from(numeric_not_digit).filter(
@@ -1770,6 +1804,7 @@ class TestCheckIntLike:
     def test_given_unicode_digit_numeral_returns_true(self, x: str) -> None:
         assert fastnumbers.check_intlike(x)
         assert fastnumbers.check_intlike(pad(x))  # Accepts padding
+        assert not fastnumbers.check_intlike(x, allow_unicode_chars=False)
 
 
 class TestQueryType:
@@ -1823,11 +1858,13 @@ class TestQueryType:
     def test_given_unicode_digit_returns_int(self, x: str) -> None:
         assert fastnumbers.query_type(x) is int
         assert fastnumbers.query_type(pad(x)) is int  # Accepts padding
+        assert fastnumbers.query_type(x, allow_unicode_chars=False) is not int
 
     @given(sampled_from(numeric_not_digit_not_int))
     def test_given_unicode_numeral_returns_float(self, x: str) -> None:
         assert fastnumbers.query_type(x) is float
         assert fastnumbers.query_type(pad(x)) is float  # Accepts padding
+        assert fastnumbers.query_type(x, allow_unicode_chars=False) is not float
 
     @given(sampled_from(random.sample(not_numeric, 1000)))
     def test_given_unicode_non_numeral_returns_str_or_none_if_str_not_allowed(
@@ -1835,6 +1872,12 @@ class TestQueryType:
     ) -> None:
         assert fastnumbers.query_type(x) is str
         assert fastnumbers.query_type(x, allowed_types=(int, float)) is None
+        assert (
+            fastnumbers.query_type(
+                x, allow_unicode_chars=False, allowed_types=(int, float)
+            )
+            is None
+        )
 
     @given(text(min_size=2).filter(not_a_number))
     @example("   \u2007\u2007    ")

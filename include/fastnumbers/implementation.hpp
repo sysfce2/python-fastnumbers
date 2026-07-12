@@ -259,6 +259,8 @@ PyObject* iter_iteration_impl(
  * \param on_overflow The object specifying what action to take on overflow
  * \param on_type_error The object specifying what action to take on type error
  * \param allow_underscores Whether or not it is OK for numbers to contain underscores
+ * \param allow_unicode_chars Whether or not it is OK to convert individual unicode
+ * characters
  * \param base The integer base use when parsing ints, use INT_MIN for default
  */
 void array_impl(
@@ -270,5 +272,6 @@ void array_impl(
     PyObject* on_overflow,
     PyObject* on_type_error,
     bool allow_underscores,
+    bool allow_unicode_chars,
     const int base = std::numeric_limits<int>::min()
 ) noexcept(false);
