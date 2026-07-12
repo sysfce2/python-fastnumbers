@@ -628,6 +628,25 @@ class TestSuccess:
         fastnumbers.try_array(given, result, base=0, allow_underscores=True)
         assert result == expected
 
+    @pytest.mark.parametrize("data_type", data_types)
+    def test_unicode_chars_ok(self, data_type: str) -> None:
+        given = ["⑦", "⑧"]
+        result = array.array(formats[data_type], [0, 0])
+        expected = array.array(formats[data_type], [7, 8])
+        fastnumbers.try_array(given, result, allow_unicode_chars=True)
+        assert result == expected
+
+    @pytest.mark.parametrize("data_type", data_types)
+    def test_unicode_chars_disallowed(self, data_type: str) -> None:
+        given = ["⑦", "⑧"]
+        result = array.array(formats[data_type], [0, 0])
+        with pytest.raises(ValueError, match=r"Cannot convert '\w+' to C type"):
+            fastnumbers.try_array(given, result, allow_unicode_chars=False)
+
+        expected = array.array(formats[data_type], [1, 1])
+        fastnumbers.try_array(given, result, allow_unicode_chars=False, on_fail=1)
+        assert result == expected
+
 
 # Create shortcuts to collections of dtypes to test
 signed_dtypes: list[Any] = [
