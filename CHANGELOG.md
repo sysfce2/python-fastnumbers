@@ -1,6 +1,12 @@
 Unreleased
 ---
 
+### Added
+
+- Add `allow_unicode_chars` option so users can disable the conversion
+  of single unicode characters into numbers
+  (issue [#92](https://github.com/SethMMorton/fastnumbers/pull/92))
+
 ### Fixed
 
 - Fixed `int`, `real`, `try_int` and `try_array` silently accepting and

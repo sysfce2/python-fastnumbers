@@ -140,11 +140,14 @@ Error-Handling Functions
     >>> try_float(54, on_fail=len)
     54.0
     >>>
-    >>> # Single unicode characters can be converted.
+    >>> # Single unicode characters can be converted...
     >>> try_float('\u2164')  # Roman numeral 5 (V)
     5.0
     >>> try_float('\u2466')  # 7 enclosed in a circle
     7.0
+    >>> # ... but this behavior can be disabled with allow_unicode_chars=False
+    >>> try_float('\u2164', allow_unicode_chars=False)
+    '\u2164'
 
 ``try_int`` behaves the same as ``try_float``, but for integers.
 
